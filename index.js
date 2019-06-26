@@ -40,13 +40,13 @@ function loadTemplate(templateName, contexts) {
     );
 }
 
-function echo(event1) {
-    if (event1.op === "INSERT") {
-        responseBody = `New user ${event1.data.new.id} inserted, with data: ${
-            event1.data.new.name
+function echo(event) {
+    if (event.op === "INSERT") {
+        responseBody = `New user ${event.data.new.id} inserted, with data: ${
+            event.data.new.name
             }`;
 
-        loadTemplate("welcome", [event1.data])
+        loadTemplate("welcome", [event.data])
             .then(results => {
                 return Promise.all(
                     results.map(result => {
@@ -63,13 +63,13 @@ function echo(event1) {
             .catch(e => {
                 console.log("Error Found: ", e);
             });
-    } else if (event1.op === "UPDATE") {
-        responseBody = `User ${event1.data.new.id} updated, with data: ${
-            event1.data.new.name
+    } else if (event.op === "UPDATE") {
+        responseBody = `User ${event.data.new.id} updated, with data: ${
+            event.data.new.name
             }`;
-    } else if (event1.op === "DELETE") {
-        responseBody = `User ${event1.data.old.id} deleted, with data: ${
-            event1.data.old.name
+    } else if (event.op === "DELETE") {
+        responseBody = `User ${event.data.old.id} deleted, with data: ${
+            event.data.old.name
             }`;
     }
 
@@ -111,19 +111,15 @@ function echo(event2){
             }`;
     }
 
-    return responseBody;
+    return responseBody;    
 }
    
-        
-    
-
-
 
 
 app.post("/", function (req, res) {
     try {
-        let event1 = req.body.event;
-        let result = echo(event1);
+        let event = req.body.event;
+        let result = echo(event);
 
         res.json(result);
     } catch (e) {
