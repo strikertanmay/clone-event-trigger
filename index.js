@@ -41,85 +41,90 @@ function loadTemplate(templateName, contexts) {
 }
 
 function echo(event) {
-    if (event.op === "INSERT") {
-        responseBody = `New user ${event.data.new.id} inserted, with data: ${
-            event.data.new.name
-            }`;
 
-        loadTemplate("welcome", [event.data])
-            .then(results => {
-                return Promise.all(
-                    results.map(result => {
-                        sendEmail({
-                            to: result.context.new.email,
-                            from: "tanmaymittal0@gmail.com",
-                            subject: result.email.subject,
-                            html: result.email.html,
-                            text: result.email.text
-                        });
-                    })
-                );
-            })
-            .catch(e => {
-                console.log("Error Found: ", e);
-            });
-    } else if (event.op === "UPDATE") {
-        responseBody = `User ${event.data.new.id} updated, with data: ${
-            event.data.new.name
-            }`;
-    } else if (event.op === "DELETE") {
-        responseBody = `User ${event.data.old.id} deleted, with data: ${
-            event.data.old.name
-            }`;
+    if (event === event1) {
+        let responseBody = "";
+
+        if (event1.op === "INSERT") {
+            responseBody = `New user ${event1.data.new.id} inserted, with data: ${
+                event1.data.new.name
+                }`;
+
+            loadTemplate("welcome", [event1.data])
+                .then(results => {
+                    return Promise.all(
+                        results.map(result => {
+                            sendEmail({
+                                to: result.context.new.email,
+                                from: "tanmaymittal0@gmail.com",
+                                subject: result.email.subject,
+                                html: result.email.html,
+                                text: result.email.text
+                            });
+                        })
+                    );
+                })
+                .catch(e => {
+                    console.log("Error Found: ", e);
+                });
+        } else if (event1.op === "UPDATE") {
+            responseBody = `User ${event1.data.new.id} updated, with data: ${
+                event1.data.new.name
+                }`;
+        } else if (event1.op === "DELETE") {
+            responseBody = `User ${event1.data.old.id} deleted, with data: ${
+                event1.data.old.name
+                }`;
+        }
+
+        return responseBody;
     }
 
-    return responseBody;
-}
+    else if (event === event2) {
+        let responseBody = "";
 
-function echo(event2){
-    let responseBody = "";
+        if (event2.op === "INSERT") {
+            responseBody = `New project ${event2.data.new.id} inserted, with data: ${
+                event2.data.new.project_name
+                }`;
 
-    if (event2.op === "INSERT") {
-        responseBody = `New project ${event2.data.new.id} inserted, with data: ${
-            event2.data.new.project_name
-            }`;
+            loadTemplate("Add_Project", [event2.session_variables])
+                .then(results => {
+                    return Promise.all(
+                        results.map(result => {
+                            sendEmail({
+                                to: result.context.x - hasura - email,
+                                from: "tanmaymittal0@gmail.com",
+                                subject: result.email.subject,
+                                html: result.email.html,
+                                text: result.email.text
+                            });
+                        })
+                    );
+                })
+                .catch(e => {
+                    console.log("Error Found: ", e);
+                });
+        } else if (event2.op === "UPDATE") {
+            responseBody = `User ${event2.data.new.id} updated, with data: ${
+                event2.data.new.project_name
+                }`;
+        } else if (event2.op === "DELETE") {
+            responseBody = `User ${event2.data.old.id} deleted, with data: ${
+                event2.data.old.project_name
+                }`;
+        }
 
-        loadTemplate("Add_Project", [event2.session_variables])
-            .then(results => {
-                return Promise.all(
-                    results.map(result => {
-                        sendEmail({
-                            to: result.context.x - hasura - email,
-                            from: "tanmaymittal0@gmail.com",
-                            subject: result.email.subject,
-                            html: result.email.html,
-                            text: result.email.text
-                        });
-                    })
-                );
-            })
-            .catch(e => {
-                console.log("Error Found: ", e);
-            });
-    } else if (event2.op === "UPDATE") {
-        responseBody = `User ${event2.data.new.id} updated, with data: ${
-            event2.data.new.project_name
-            }`;
-    } else if (event2.op === "DELETE") {
-        responseBody = `User ${event2.data.old.id} deleted, with data: ${
-            event2.data.old.project_name
-            }`;
+        return responseBody;
     }
 
-    return responseBody;    
 }
-   
 
 
 app.post("/", function (req, res) {
     try {
-        let event = req.body.event;
-        let result = echo(event);
+        let event1 = req.body.event;
+        let result = echo(event1);
 
         res.json(result);
     } catch (e) {
