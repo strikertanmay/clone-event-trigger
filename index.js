@@ -52,7 +52,7 @@ function echo(event) {
                     results.map(result => {
                         sendEmail({
                             to: result.context.new.email,
-                            from: "hello@cynthesize.co",
+                            from: "tanmaymittal0@gmail.com",
                             subject: result.email.subject,
                             html: result.email.html,
                             text: result.email.text
@@ -90,7 +90,7 @@ function echo(event2){
                     results.map(result => {
                         sendEmail({
                             to: result.context.x - hasura - email,
-                            from: "hello@cynthesize.co",
+                            from: "tanmaymittal0@gmail.com",
                             subject: result.email.subject,
                             html: result.email.html,
                             text: result.email.text
