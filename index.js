@@ -42,7 +42,7 @@ function loadTemplate(templateName, contexts) {
 
 function echo(event) {
 
-    if (event.session_variables.x-hasura-role === "guest") {
+    if (event.data.new.name) {
         let responseBody = "";
 
         if (event.op === "INSERT") {
@@ -80,7 +80,7 @@ function echo(event) {
         return responseBody;
     }
 
-    else if (event.session_variables.x-hasura-role === "user") {
+    else if (event.data.new.project_name) {
         let responseBody = "";
 
         if (event.op === "INSERT") {
@@ -149,7 +149,7 @@ app.post("/addproject", function (req, res) {
 });
 
 app.get("/", function (req, res) {
-    res.send("Hello World - For Event Triggers, try a POST request?");
+    res.send("Hello World - For normal Event Triggers, try a POST request?");
 });
 
 app.get("/addproject", function (req, res) {
