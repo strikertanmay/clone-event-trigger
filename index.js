@@ -42,15 +42,15 @@ function loadTemplate(templateName, contexts) {
 
 function echo(event) {
 
-    if (event === event1) {
+    if (event.table.name === "user") {
         let responseBody = "";
 
-        if (event1.op === "INSERT") {
-            responseBody = `New user ${event1.data.new.id} inserted, with data: ${
-                event1.data.new.name
+        if (event.op === "INSERT") {
+            responseBody = `New user ${event.data.new.id} inserted, with data: ${
+                event.data.new.name
                 }`;
 
-            loadTemplate("welcome", [event1.data])
+            loadTemplate("welcome", [event.data])
                 .then(results => {
                     return Promise.all(
                         results.map(result => {
@@ -67,28 +67,28 @@ function echo(event) {
                 .catch(e => {
                     console.log("Error Found: ", e);
                 });
-        } else if (event1.op === "UPDATE") {
-            responseBody = `User ${event1.data.new.id} updated, with data: ${
-                event1.data.new.name
+        } else if (event.op === "UPDATE") {
+            responseBody = `User ${event.data.new.id} updated, with data: ${
+                event.data.new.name
                 }`;
-        } else if (event1.op === "DELETE") {
-            responseBody = `User ${event1.data.old.id} deleted, with data: ${
-                event1.data.old.name
+        } else if (event.op === "DELETE") {
+            responseBody = `User ${event.data.old.id} deleted, with data: ${
+                event.data.old.name
                 }`;
         }
 
         return responseBody;
     }
 
-    else if (event === event2) {
+    else if (event.table.name === "projects") {
         let responseBody = "";
 
-        if (event2.op === "INSERT") {
-            responseBody = `New project ${event2.data.new.id} inserted, with data: ${
-                event2.data.new.project_name
+        if (event.op === "INSERT") {
+            responseBody = `New project ${event.data.new.id} inserted, with data: ${
+                event.data.new.project_name
                 }`;
 
-            loadTemplate("Add_Project", [event2.session_variables])
+            loadTemplate("Add_Project", [event.session_variables])
                 .then(results => {
                     return Promise.all(
                         results.map(result => {
@@ -105,13 +105,13 @@ function echo(event) {
                 .catch(e => {
                     console.log("Error Found: ", e);
                 });
-        } else if (event2.op === "UPDATE") {
-            responseBody = `User ${event2.data.new.id} updated, with data: ${
-                event2.data.new.project_name
+        } else if (event.op === "UPDATE") {
+            responseBody = `User ${event.data.new.id} updated, with data: ${
+                event.data.new.project_name
                 }`;
-        } else if (event2.op === "DELETE") {
-            responseBody = `User ${event2.data.old.id} deleted, with data: ${
-                event2.data.old.project_name
+        } else if (event.op === "DELETE") {
+            responseBody = `User ${event.data.old.id} deleted, with data: ${
+                event.data.old.project_name
                 }`;
         }
 
@@ -123,8 +123,8 @@ function echo(event) {
 
 app.post("/", function (req, res) {
     try {
-        let event1 = req.body.event;
-        let result = echo(event1);
+        let event = req.body.event;
+        let result = echo(event);
 
         res.json(result);
     } catch (e) {
@@ -136,8 +136,8 @@ app.post("/", function (req, res) {
 
 app.post("/addproject", function (req, res) {
     try {
-        let event2 = req.body.event;
-        let result1 = echo(event2);
+        let event = req.body.event;
+        let result1 = echo(event);
 
         res.json(result1);
         // console.log(res);
