@@ -40,17 +40,17 @@ function loadTemplate(templateName, contexts) {
     );
 }
 
-function echo(event) {
+function echo(payload) {
 
-    if (event.data.new.name) {
+    if (payload.trigger.name === "test") {
         let responseBody = "";
 
-        if (event.op === "INSERT") {
-            responseBody = `New user ${event.data.new.id} inserted, with data: ${
-                event.data.new.name
+        if (payload.event.op === "INSERT") {
+            responseBody = `New user ${payload.event.data.new.id} inserted, with data: ${
+                payload.event.data.new.name
                 }`;
 
-            loadTemplate("welcome", [event.data])
+            loadTemplate("welcome", [payload.event.data])
                 .then(results => {
                     return Promise.all(
                         results.map(result => {
@@ -67,25 +67,25 @@ function echo(event) {
                 .catch(e => {
                     console.log("Error Found: ", e);
                 });
-        } else if (event.op === "UPDATE") {
-            responseBody = `User ${event.data.new.id} updated, with data: ${
-                event.data.new.name
+        } else if (payload.event.op === "UPDATE") {
+            responseBody = `User ${payload.event.data.new.id} updated, with data: ${
+                payload.event.data.new.name
                 }`;
-        } else if (event.op === "DELETE") {
-            responseBody = `User ${event.data.old.id} deleted, with data: ${
-                event.data.old.name
+        } else if (payload.event.op === "DELETE") {
+            responseBody = `User ${payload.event.data.old.id} deleted, with data: ${
+                payload.event.data.old.name
                 }`;
         }
 
         return responseBody;
     }
 
-    else if (event.data.new.project_name) {
+    else if (payload.trigger.name === "add_project") {
         let responseBody = "";
 
         if (event.op === "INSERT") {
             responseBody = `New project ${event.data.new.id} inserted, with data: ${
-                event.data.new.project} email, data: ${event.session_variables.X-Hasura-Email
+                event.data.new.project} email, data: ${event.session_variables.x-hasura-email
                 }`;
 
             loadTemplate("Add_Project", [event.session_variables])
@@ -93,7 +93,7 @@ function echo(event) {
                     return Promise.all(
                         results.map(result => {
                             sendEmail({
-                                to: result.context.X-Hasura-Email,
+                                to: result.context.x-hasura-email,
                                 from: "tanmaymittal0@gmail.com",
                                 subject: result.email.subject,
                                 html: result.email.html,
@@ -123,8 +123,8 @@ function echo(event) {
 
 app.post("/", function (req, res) {
     try {
-        let event = req.body.event;
-        let result = echo(event);
+        let payload = req.body;
+        let result = echo(payload);
 
         res.json(result);
     } catch (e) {
@@ -136,8 +136,8 @@ app.post("/", function (req, res) {
 
 app.post("/addproject", function (req, res) {
     try {
-        let event = req.body.event;
-        let result1 = echo(event);
+        let payload = req.body;
+        let result1 = echo(payload);
 
         res.json(result1);
         // console.log(res);
