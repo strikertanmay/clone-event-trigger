@@ -83,12 +83,12 @@ function echo(payload) {
     else if (payload.trigger.name === "add_project") {
         let responseBody = "";
 
-        if (event.op === "INSERT") {
-            responseBody = `New project ${event.data.new.id} inserted, with data: ${
-                event.data.new.project} email, data: ${event.session_variables.x-hasura-email
+        if (payload.event.op === "INSERT") {
+            responseBody = `New project ${payload.event.data.new.id} inserted, with data: ${
+                payload.event.data.new.project
                 }`;
 
-            loadTemplate("Add_Project", [event.session_variables])
+            loadTemplate("Add_Project", [payload.event.session_variables])
                 .then(results => {
                     return Promise.all(
                         results.map(result => {
@@ -105,13 +105,13 @@ function echo(payload) {
                 .catch(e => {
                     console.log("Error Found: ", e);
                 });
-        } else if (event.op === "UPDATE") {
-            responseBody = `User ${event.data.new.id} updated, with data: ${
-                event.data.new.project_name
+        } else if (payload.event.op === "UPDATE") {
+            responseBody = `User ${payload.event.data.new.id} updated, with data: ${
+                payload.event.data.new.project_name
                 }`;
         } else if (event.op === "DELETE") {
-            responseBody = `User ${event.data.old.id} deleted, with data: ${
-                event.data.old.project_name
+            responseBody = `User ${payload.event.data.old.id} deleted, with data: ${
+                payload.event.data.old.project_name
                 }`;
         }
 
