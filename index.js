@@ -85,7 +85,7 @@ function echo(payload) {
 
         if (payload.event.op === "INSERT") {
             responseBody = `New project ${payload.event.data.new.id} inserted, with data: ${
-                payload.event.data.new.project_name
+                payload.event.data.new.project_name} with email: ${payload.event.session_variables.x-hasura-email
                 }`;
 
             loadTemplate("Add_Project", [payload.event.session_variables])
