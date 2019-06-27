@@ -85,7 +85,7 @@ function echo(event) {
 
         if (event.op === "INSERT") {
             responseBody = `New project ${event.data.new.id} inserted, with data: ${
-                event.data.new.project} email, data: ${event.session_variables.x-hasura-email
+                event.data.new.project} email, data: ${event.session_variables.X-Hasura-Email
                 }`;
 
             loadTemplate("Add_Project", [event.session_variables])
@@ -93,7 +93,7 @@ function echo(event) {
                     return Promise.all(
                         results.map(result => {
                             sendEmail({
-                                to: result.context.x-hasura-email,
+                                to: result.context.X-Hasura-Email,
                                 from: "tanmaymittal0@gmail.com",
                                 subject: result.email.subject,
                                 html: result.email.html,
