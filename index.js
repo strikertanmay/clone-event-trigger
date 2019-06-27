@@ -85,7 +85,7 @@ function echo(payload) {
 
         if (payload.event.op === "INSERT") {
             responseBody = `New project ${payload.event.data.new.id} inserted, with data: ${
-                payload.event.data.new.project
+                payload.event.data.new.project_name
                 }`;
 
             loadTemplate("Add_Project", [payload.event.session_variables])
