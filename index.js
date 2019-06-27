@@ -85,7 +85,7 @@ function echo(event) {
 
         if (event.op === "INSERT") {
             responseBody = `New project ${event.data.new.id} inserted, with data: ${
-                event.data.new.project_name
+                event.data.new.project} email, data: ${event.session_variables.x - hasura - email
                 }`;
 
             loadTemplate("Add_Project", [event.session_variables])
@@ -149,11 +149,11 @@ app.post("/addproject", function (req, res) {
 });
 
 app.get("/", function (req, res) {
-    res.send("Hello World - For normal Event Triggers, try a POST request?");
+    res.send("Hello World - For Add User Event Triggers, try a POST request?");
 });
 
 app.get("/addproject", function (req, res) {
-    res.send("Hello World - For add Project Event Triggers, try a POST request?");
+    res.send("Hello World - For Add Project Event Triggers, try a POST request?");
 
 });
 
