@@ -42,7 +42,7 @@ function loadTemplate(templateName, contexts) {
 
 function echo(event) {
 
-    if (event.table.name === "user") {
+    if (event.session_variables.x-hasura-role === "guest") {
         let responseBody = "";
 
         if (event.op === "INSERT") {
@@ -80,7 +80,7 @@ function echo(event) {
         return responseBody;
     }
 
-    else if (event.table.name === "projects") {
+    else if (event.session_variables.x-hasura-role === "user") {
         let responseBody = "";
 
         if (event.op === "INSERT") {
