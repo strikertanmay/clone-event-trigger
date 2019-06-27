@@ -153,7 +153,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/addproject", function (req, res) {
-    res.send("Hello World - For Event Triggers, try a POST request?");
+    res.send("Hello World - For add Project Event Triggers, try a POST request?");
 
 });
 
