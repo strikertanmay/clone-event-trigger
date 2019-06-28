@@ -7,7 +7,7 @@ const nodemailer = require("nodemailer"),
     host: 'smtp.gmail.com',
     auth: {
       user: 'tanmaymittal0@gmail.com',
-      pass: 'legiony520'
+      pass: 'XXXXXXXXX'
     }
   }),
   EmailTemplate = require("email-templates").EmailTemplate,
