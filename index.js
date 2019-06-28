@@ -3,12 +3,11 @@ const bodyParser = require("body-parser");
 const app = express();
 const nodemailer = require("nodemailer"),
   transporter = nodemailer.createTransport({
-    host: "smtp.zoho.in",
-    port: 465,
-    secure: true,
+    service: 'gmail',
+    host: 'smtp.gmail.com',
     auth: {
-      user: "hello@cynthesize.co",
-      pass: process.env.EMAIL_PASS
+      user: 'tanmaymittal0@gmail.com',
+      pass: 'legiony520'
     }
   }),
   EmailTemplate = require("email-templates").EmailTemplate,
@@ -57,7 +56,7 @@ function echo(payload) {
             results.map(result => {
               sendEmail({
                 to: result.context.new.email,
-                from: "hello@cynthesize.co",
+                from: "tanmaymittal0@gmail.com",
                 subject: result.email.subject,
                 html: result.email.html,
                 text: result.email.text
@@ -86,16 +85,16 @@ function echo(payload) {
 
     if (payload.event.op === "INSERT") {
       responseBody = `New project ${payload.event.data.new.id} inserted, with data: ${
-        payload.event.data.new.project_name} with senderEmail: ${payload.event.session_variables.x-hasura-email
+        payload.event.data.new.project_name} with senderEmail: ${payload.event.session_variables['x-hasura-email']
         }`;
 
-      loadTemplate("Add_Project", [payload.event.session_variables])
+      loadTemplate("Add_Project", [payload.event])
         .then(results => {
           return Promise.all(
             results.map(result => {
               sendEmail({
-                to: result.context.x-hasura-email,
-                from: "hello@cynthesize.co",
+                to: result.context.session_variables['x-hasura-email'],
+                from: "tanmaymittall0@gmail.com",
                 subject: result.email.subject,
                 html: result.email.html,
                 text: result.email.text
